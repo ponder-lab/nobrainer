@@ -19,6 +19,7 @@ class SingleDeconv3DBlock(tf.keras.layers.Layer):
             output_padding=None,
         )
 
+    @tf.function
     def call(self, inputs):
         return self.block(inputs)
 
@@ -63,6 +64,7 @@ class Deconv3DBlock(tf.keras.layers.Layer):
             ]
         )
 
+    @tf.function
     def call(self, inputs):
         return self.a(inputs)
 
@@ -172,6 +174,7 @@ class PatchEmbedding(tf.keras.layers.Layer):
         )
         # embedding - basically is adding numerical embedding to the layer along with an extra dim
 
+    @tf.function
     def call(self, inputs):
         patches = self.lyer(inputs)
         patches = tf.reshape(
@@ -238,6 +241,7 @@ class TransformerEncoder(tf.keras.layers.Layer):
             for _ in range(num_layers)
         ]
 
+    @tf.function
     def call(self, inputs, training=True):
         extract_layers = []
         x = inputs
@@ -320,6 +324,7 @@ class UNETR(tf.keras.Model):
             [Conv3DBlock(64), Conv3DBlock(64), SingleConv3DBlock(output_dim, (1, 1, 1))]
         )
 
+    @tf.function
     def call(self, x):
         z = self.transformer(x)
         z0, z3, z6, z9, z12 = x, z[0], z[1], z[2], z[3]

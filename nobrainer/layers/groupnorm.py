@@ -26,6 +26,7 @@ from tensorflow.keras import backend as K
 from tensorflow.keras import constraints, initializers, regularizers
 from tensorflow.keras.layers import InputSpec, Layer
 from tensorflow.keras.utils import get_custom_objects
+from tensorflow import function
 
 
 class GroupNormalization(Layer):
@@ -143,6 +144,7 @@ class GroupNormalization(Layer):
             self.beta = None
         self.built = True
 
+    @function
     def call(self, inputs, **kwargs):
         input_shape = K.int_shape(inputs)
         tensor_input_shape = K.shape(inputs)

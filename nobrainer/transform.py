@@ -211,12 +211,14 @@ def _get_coordinates(volume_shape):
     return tf.reshape(tf.stack(out, axis=3), shape=(-1, 3))
 
 
+@tf.function
 def _nearest_neighbor_interpolation(volume, coords):
     """Three-dimensional nearest neighbors interpolation."""
     volume_f = _get_voxels(volume=volume, coords=tf.round(coords))
     return tf.reshape(volume_f, volume.shape)
 
 
+@tf.function
 def _trilinear_interpolation(volume, coords):
     """Trilinear interpolation.
 
@@ -301,6 +303,7 @@ def _trilinear_interpolation(volume, coords):
     return tf.reshape(c, volume.shape)
 
 
+@tf.function
 def _get_voxels(volume, coords):
     """Get voxels from volume at points. These voxels are in a flat tensor."""
     x = tf.cast(volume, tf.float32)
